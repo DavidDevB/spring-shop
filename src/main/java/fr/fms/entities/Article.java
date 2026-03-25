@@ -26,4 +26,19 @@ public class Article implements Serializable {
     this.description = description;
     this.price = price;
   }
+
+  @Override
+  public String toString() {
+    return (
+      "Article{id=" +
+      id +
+      ", brand='" +
+      brand +
+      "', description='" +
+      description +
+      "', price=" +
+      price +
+      "}"
+    );
+  }
 }

@@ -34,4 +34,8 @@ public class Category implements Serializable {
   public String getName() {
     return name;
   }
+
+  public String toString() {
+    return "Category{" + "id=" + id + ", name='" + name + '\'' + '}';
+  }
 }
