@@ -21,8 +21,7 @@ public class Article implements Serializable {
 
   public Article() {}
 
-  public Article(Long id, String brand, String description, float price) {
-    this.id = id;
+  public Article(String brand, String description, float price) {
     this.brand = brand;
     this.description = description;
     this.price = price;
