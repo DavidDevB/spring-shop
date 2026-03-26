@@ -4,7 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import java.io.Serializable;
+import java.util.Collection;
 
 @Entity
 public class Category implements Serializable {
@@ -16,6 +18,9 @@ public class Category implements Serializable {
   private Long id;
 
   private String name;
+
+  @OneToMany(mappedBy = "category")
+  private Collection<Article> articles;
 
   public Category() {}
 
