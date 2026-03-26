@@ -4,13 +4,13 @@ import fr.fms.dao.ArticleRepository;
 import fr.fms.dao.CategoryRepository;
 import fr.fms.entities.Article;
 import fr.fms.entities.Category;
+import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import java.util.Scanner;
 
 @SpringBootApplication
 public class SpringShopApplication implements CommandLineRunner {
@@ -77,7 +77,9 @@ public class SpringShopApplication implements CommandLineRunner {
     System.out.println("EXIT       pour sortir de la pagination");
     System.out.println("PREV       pour aller a la page precedente");
     System.out.println("NEXT       pour aller a la page suivante");
-    System.out.println("PAGE puis 7 pour afficher 7 articles par page (5 par défaut)");
+    System.out.println(
+      "PAGE puis 7 pour afficher 7 articles par page (5 par défaut)"
+    );
     System.out.println("*************************");
     switch (choix) {
       case 1:
@@ -98,5 +100,6 @@ public class SpringShopApplication implements CommandLineRunner {
         break;
       case 6:
         break;
+    }
   }
 }
