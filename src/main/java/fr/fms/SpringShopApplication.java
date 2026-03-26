@@ -31,21 +31,23 @@ public class SpringShopApplication implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    categoryRepository.save(new Category("Smartphone"));
-    articleRepository.save(new Article("Samsung", "S8", 250));
-    articleRepository.save(new Article("Samsung", "S9", 300));
-    articleRepository.save(new Article("Samsung", "S10", 400));
-    articleRepository.save(new Article("Samsung", "S11", 500));
-    articleRepository.save(new Article("Apple", "IPhone 15", 600));
-    articleRepository.save(new Article("Apple", "IPhone 16", 700));
-    articleRepository.save(new Article("Apple", "IPhone 17", 800));
-    articleRepository.save(new Article("Sony", "Xperia 1", 900));
-    articleRepository.save(new Article("Sony", "Xperia 2", 1000));
-    articleRepository.save(new Article("Sony", "Xperia 3", 1100));
-    articleRepository.save(new Article("Rolex", "Rolex 1", 1200));
-    articleRepository.save(new Article("Rolex", "Rolex 2", 1300));
-    articleRepository.save(new Article("Maggi", "Maggi 1", 1400));
-    articleRepository.save(new Article("Maggi", "Maggi 2", 1500));
+    Category smartphone = categoryRepository.save(new Category("Smartphone"));
+    Category watch = categoryRepository.save(new Category("Watch"));
+    Category food = categoryRepository.save(new Category("Food"));
+    articleRepository.save(new Article("Samsung", "S8", 250, smartphone));
+    articleRepository.save(new Article("Samsung", "S9", 300, smartphone));
+    articleRepository.save(new Article("Samsung", "S10", 400, smartphone));
+    articleRepository.save(new Article("Samsung", "S11", 500, smartphone));
+    articleRepository.save(new Article("Apple", "IPhone 15", 600, smartphone));
+    articleRepository.save(new Article("Apple", "IPhone 16", 700, smartphone));
+    articleRepository.save(new Article("Apple", "IPhone 17", 800, smartphone));
+    articleRepository.save(new Article("Sony", "Xperia 1", 900, smartphone));
+    articleRepository.save(new Article("Sony", "Xperia 2", 1000, smartphone));
+    articleRepository.save(new Article("Sony", "Xperia 3", 1100, smartphone));
+    articleRepository.save(new Article("Rolex", "Rolex 1", 1200, watch));
+    articleRepository.save(new Article("Rolex", "Rolex 2", 1300, watch));
+    articleRepository.save(new Article("Maggi", "Maggi 1", 1400, food));
+    articleRepository.save(new Article("Maggi", "Maggi 2", 1500, food));
     for (Article article : articleRepository.findByBrand("S9")) {
       logger.info("Article: {}", article.toString());
     }
@@ -83,8 +85,24 @@ public class SpringShopApplication implements CommandLineRunner {
     System.out.println("*************************");
     switch (choix) {
       case 1:
+        System.out.printf(
+          "%-15s %-20s %-20s %-10s %-15s%n",
+          "IDENTIFIANT",
+          "MARQUE",
+          "DESCRIPTION",
+          "PRIX",
+          "CATEGORIE"
+        );
+        System.out.println("-".repeat(80));
         for (Article article : articleRepository.findAll()) {
-          logger.info("Article: {}", article.toString());
+          System.out.printf(
+            "%-15s %-20s %-20s %-10s %-15s%n",
+            article.getId(),
+            article.getBrand(),
+            article.getDescription(),
+            article.getPrice(),
+            article.getCategory().getName()
+          );
         }
         break;
       case 2:
