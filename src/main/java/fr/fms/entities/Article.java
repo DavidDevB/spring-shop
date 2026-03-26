@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import java.io.Serializable;
 
 @Entity
@@ -26,6 +27,9 @@ public class Article implements Serializable {
     this.description = description;
     this.price = price;
   }
+
+  @ManyToOne
+  private Category category;
 
   @Override
   public String toString() {
