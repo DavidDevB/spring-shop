@@ -153,6 +153,7 @@ public class SpringShopApplication implements CommandLineRunner {
             }
           } else if (cmd.startsWith("PAGE")) {
             pageSize = sc.nextInt();
+            pageNum = 0;
           }
         }
         break;
