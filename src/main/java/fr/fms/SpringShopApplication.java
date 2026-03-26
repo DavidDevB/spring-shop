@@ -33,6 +33,18 @@ public class SpringShopApplication implements CommandLineRunner {
     categoryRepository.save(new Category("Smartphone"));
     articleRepository.save(new Article("Samsung", "S8", 250));
     articleRepository.save(new Article("Samsung", "S9", 300));
+    articleRepository.save(new Article("Samsung", "S10", 400));
+    articleRepository.save(new Article("Samsung", "S11", 500));
+    articleRepository.save(new Article("Apple", "IPhone 15", 600));
+    articleRepository.save(new Article("Apple", "IPhone 16", 700));
+    articleRepository.save(new Article("Apple", "IPhone 17", 800));
+    articleRepository.save(new Article("Sony", "Xperia 1", 900));
+    articleRepository.save(new Article("Sony", "Xperia 2", 1000));
+    articleRepository.save(new Article("Sony", "Xperia 3", 1100));
+    articleRepository.save(new Article("Rolex", "Rolex 1", 1200));
+    articleRepository.save(new Article("Rolex", "Rolex 2", 1300));
+    articleRepository.save(new Article("Maggi", "Maggi 1", 1400));
+    articleRepository.save(new Article("Maggi", "Maggi 2", 1500));
     for (Article article : articleRepository.findByBrand("S9")) {
       logger.info("Article: {}", article.toString());
     }
