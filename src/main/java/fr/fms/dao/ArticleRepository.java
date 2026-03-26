@@ -15,6 +15,9 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Param("y") double price
   );
 
+  @Query("SELECT a FROM Article a JOIN FETCH a.category")
+  List<Article> findAllWithCategory();
+
   public Article findByDescription(String description);
 
   public Article findByBrandAndDescription(String brand, String description);

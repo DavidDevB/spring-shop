@@ -94,7 +94,7 @@ public class SpringShopApplication implements CommandLineRunner {
           "CATEGORIE"
         );
         System.out.println("-".repeat(80));
-        for (Article article : articleRepository.findAll()) {
+        for (Article article : articleRepository.findAllWithCategory()) {
           System.out.printf(
             "%-15s %-20s %-20s %-10s %-15s%n",
             article.getId(),
