@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.util.Scanner;
 
 @SpringBootApplication
 public class SpringShopApplication implements CommandLineRunner {
@@ -49,5 +50,53 @@ public class SpringShopApplication implements CommandLineRunner {
       logger.info("Article: {}", article.toString());
     }
     System.out.println(articleRepository.findByDescription("S8"));
+
+    Scanner sc = new Scanner(System.in);
+
+    System.out.println("Bienvenue dans notre EShop!");
+    System.out.println("*************************");
+    System.out.println("1: Afficher les articles sans pagination");
+    System.out.println("2: Afficher les articles avec pagination");
+    System.out.println("*************************");
+    System.out.println("3: Ajouter un article");
+    System.out.println("4: Afficher un article");
+    System.out.println("5: Supprimer un article");
+    System.out.println("6: Modifier un article");
+    System.out.println("*************************");
+    System.out.println("7: Ajouter une categorie");
+    System.out.println("8: Afficher une categorie");
+    System.out.println("8: Supprimer une categorie");
+    System.out.println("9: Mettre à jour une categorie");
+    System.out.println("10: Afficher tous les articles d'une categorie");
+    System.out.println("*************************");
+    System.out.println("12: Sortir du programme");
+
+    int choix = sc.nextInt();
+
+    System.out.println("*************************");
+    System.out.println("EXIT       pour sortir de la pagination");
+    System.out.println("PREV       pour aller a la page precedente");
+    System.out.println("NEXT       pour aller a la page suivante");
+    System.out.println("PAGE puis 7 pour afficher 7 articles par page (5 par défaut)");
+    System.out.println("*************************");
+    switch (choix) {
+      case 1:
+        for (Article article : articleRepository.findAll()) {
+          logger.info("Article: {}", article.toString());
+        }
+        break;
+      case 2:
+        for (Article article : articleRepository.findAll()) {
+          logger.info("Article: {}", article.toString());
+        }
+        break;
+      case 3:
+        break;
+      case 4:
+        break;
+      case 5:
+        break;
+      case 6:
+        break;
   }
 }
