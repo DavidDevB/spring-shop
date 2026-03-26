@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 @SpringBootApplication
 public class SpringShopApplication implements CommandLineRunner {
@@ -106,10 +108,54 @@ public class SpringShopApplication implements CommandLineRunner {
         }
         break;
       case 2:
-        for (Article article : articleRepository.findAll()) {
-          logger.info("Article: {}", article.toString());
+        int pageNum = 0;
+        int pageSize = 5;
+        String cmd = "";
+
+        while (!cmd.equals("EXIT")) {
+          Page<Article> page = articleRepository.findAll(
+            PageRequest.of(pageNum, pageSize)
+          );
+
+          System.out.printf(
+            "%-15s %-20s %-20s %-10s %-15s%n",
+            "IDENTIFIANT",
+            "MARQUE",
+            "DESCRIPTION",
+            "PRIX",
+            "CATEGORIE"
+          );
+          System.out.println("-".repeat(80));
+          for (Article article : page.getContent()) {
+            System.out.printf(
+              "%-15s %-20s %-20s %-10s %-15s%n",
+              article.getId(),
+              article.getBrand(),
+              article.getDescription(),
+              article.getPrice(),
+              article.getCategory().getName()
+            );
+          }
+
+          System.out.println(
+            "\nPage " + (pageNum + 1) + " / " + page.getTotalPages()
+          );
+          System.out.print("Commande (NEXT/PREV/EXIT/PAGE n) : ");
+          cmd = sc.next().toUpperCase();
+
+          if (cmd.equals("NEXT")) {
+            if (page.hasNext()) {
+              pageNum++;
+            }
+          } else if (cmd.equals("PREV")) {
+            if (page.hasPrevious()) {
+              pageNum--;
+            }
+          } else if (cmd.startsWith("PAGE")) {
+            pageSize = sc.nextInt();
+          }
+          break;
         }
-        break;
       case 3:
         break;
       case 4:
