@@ -157,7 +157,7 @@ public class SpringShopApplication implements CommandLineRunner {
           }
         }
         break;
-      case 3:
+      case 3: {
         String brand = sc.next();
         String description = sc.next();
         float price = sc.nextFloat();
@@ -172,11 +172,34 @@ public class SpringShopApplication implements CommandLineRunner {
           new Article(brand, description, price, category)
         );
         break;
-      case 4:
+      }
+      case 4: {
+        String description = sc.next();
+        Article article = articleRepository.findByDescription(description);
+        System.out.println(article);
         break;
-      case 5:
+      }
+      case 5: {
+        String description = sc.next();
+        articleRepository.deleteById(
+          articleRepository.findByDescription(description).getId()
+        );
         break;
+      }
       case 6:
+        {
+          String description = sc.next();
+          String brand = sc.next();
+          float price = sc.nextFloat();
+          String categoryName = sc.next();
+          Category category;
+          if (categoryRepository.existsByName(categoryName)) {
+            category = categoryRepository.findByName(categoryName);
+          } else {
+            category = categoryRepository.save(new Category(categoryName));
+          }
+          articleRepository.updateArticle(brand, description, price, category);
+        }
         break;
     }
   }
