@@ -215,9 +215,10 @@ public class SpringShopApplication implements CommandLineRunner {
         break;
       }
       case 9: {
-        String name = sc.next();
-        if (categoryRepository.existsByName(name)) {
-          categoryRepository.updateName(name);
+        String oldName = sc.next();
+        String newName = sc.next();
+        if (categoryRepository.existsByName(oldName)) {
+          categoryRepository.updateName(oldName, newName);
         } else {
           System.out.println("Categorie inexistante");
         }
