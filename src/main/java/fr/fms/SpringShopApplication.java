@@ -36,5 +36,6 @@ public class SpringShopApplication implements CommandLineRunner {
     for (Article article : articleRepository.findByBrand("S9")) {
       logger.info("Article: {}", article.toString());
     }
+    System.out.println(articleRepository.findByDescription("S8"));
   }
 }

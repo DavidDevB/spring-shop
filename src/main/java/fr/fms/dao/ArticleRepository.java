@@ -14,4 +14,10 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Param("x") String kw,
     @Param("y") double price
   );
+
+  public Article findByDescription(String description);
+
+  public Article findByBrandAndDescription(String brand, String description);
+
+  public void deleteById(Long id);
 }
