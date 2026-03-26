@@ -4,8 +4,10 @@ import fr.fms.entities.Article;
 import fr.fms.entities.Category;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
   public List<Article> findByBrand(String brand);
@@ -25,14 +27,20 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
   public void deleteById(Long id);
 
-  public Article updateArticle(
-    String brand,
-    String description,
-    float price,
-    Category category
+  @Modifying
+  @Transactional
+  @Query(
+    "UPDATE Article a SET a.brand = :brand, a.price = :price, a.category = :category WHERE a.description = :description"
+  )
+  void updateArticle(
+    @Param("brand") String brand,
+    @Param("description") String description,
+    @Param("price") float price,
+    @Param("category") Category category
   );
 
-  public List<Article> getArticlesByCategory(Category category);
-
-  public List<Article> getAllByCategory(Category category);
+  @Query(
+    "SELECT a FROM Article a JOIN FETCH a.category WHERE a.category = :category"
+  )
+  List<Article> getAllByCategory(@Param("category") Category category);
 }
