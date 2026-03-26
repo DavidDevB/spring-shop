@@ -158,6 +158,19 @@ public class SpringShopApplication implements CommandLineRunner {
         }
         break;
       case 3:
+        String brand = sc.next();
+        String description = sc.next();
+        float price = sc.nextFloat();
+        String categoryName = sc.next();
+        Category category;
+        if (categoryRepository.existsByName(categoryName)) {
+          category = categoryRepository.findByName(categoryName);
+        } else {
+          category = categoryRepository.save(new Category(categoryName));
+        }
+        articleRepository.save(
+          new Article(brand, description, price, category)
+        );
         break;
       case 4:
         break;
