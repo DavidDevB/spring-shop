@@ -31,4 +31,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     float price,
     Category category
   );
+
+  public List<Article> getArticlesByCategory(Category category);
+
+  public List<Article> getAllByCategory(Category category);
 }

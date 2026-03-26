@@ -186,21 +186,61 @@ public class SpringShopApplication implements CommandLineRunner {
         );
         break;
       }
-      case 6:
-        {
-          String description = sc.next();
-          String brand = sc.next();
-          float price = sc.nextFloat();
-          String categoryName = sc.next();
-          Category category;
-          if (categoryRepository.existsByName(categoryName)) {
-            category = categoryRepository.findByName(categoryName);
-          } else {
-            category = categoryRepository.save(new Category(categoryName));
-          }
-          articleRepository.updateArticle(brand, description, price, category);
+      case 6: {
+        String description = sc.next();
+        String brand = sc.next();
+        float price = sc.nextFloat();
+        String categoryName = sc.next();
+        Category category;
+        if (categoryRepository.existsByName(categoryName)) {
+          category = categoryRepository.findByName(categoryName);
+        } else {
+          category = categoryRepository.save(new Category(categoryName));
+        }
+        articleRepository.updateArticle(brand, description, price, category);
+        break;
+      }
+      case 7: {
+        String name = sc.next();
+        categoryRepository.save(new Category(name));
+        break;
+      }
+      case 8: {
+        String name = sc.next();
+        if (categoryRepository.existsByName(name)) {
+          categoryRepository.deleteByName(name);
+        } else {
+          System.out.println("Categorie inexistante");
         }
         break;
+      }
+      case 9: {
+        String name = sc.next();
+        if (categoryRepository.existsByName(name)) {
+          categoryRepository.updateName(name);
+        } else {
+          System.out.println("Categorie inexistante");
+        }
+        break;
+      }
+      case 10: {
+        String name = sc.next();
+        Category category = categoryRepository.findByName(name);
+        if (categoryRepository.existsByName(name)) {
+          for (Article article : articleRepository.getAllByCategory(category)) {
+            System.out.printf(
+              "%-15s %-20s %-20s %-10s %-15s%n",
+              article.getId(),
+              article.getBrand(),
+              article.getDescription(),
+              article.getPrice(),
+              article.getCategory().getName()
+            );
+          }
+          System.out.println("Categorie inexistante");
+        }
+        break;
+      }
     }
   }
 }

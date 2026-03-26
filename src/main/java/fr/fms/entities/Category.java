@@ -1,5 +1,6 @@
 package fr.fms.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +20,11 @@ public class Category implements Serializable {
 
   private String name;
 
-  @OneToMany(mappedBy = "category")
+  @OneToMany(
+    mappedBy = "category",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true
+  )
   private Collection<Article> articles;
 
   public Category() {}
