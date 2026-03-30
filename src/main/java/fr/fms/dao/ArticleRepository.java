@@ -25,7 +25,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
   public Article findByDescription(String description);
 
-  public Page findByDescriptionContains(String description, Pageable pageable);
+  public Page<Article> findByDescriptionContains(String description, Pageable pageable);
 
   public Article findByBrandAndDescription(String brand, String description);
 

@@ -5,6 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
@@ -24,8 +27,8 @@ public class Article implements Serializable {
 
   public Article(
     String brand,
-    String description,
-    float price,
+    @NotNull @Size(min = 10, max = 150) String description,
+    @DecimalMin("50") float price,
     Category category
   ) {
     this.category = category;
