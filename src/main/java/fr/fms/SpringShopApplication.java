@@ -50,198 +50,190 @@ public class SpringShopApplication implements CommandLineRunner {
     articleRepository.save(new Article("Rolex", "Rolex 2", 1300, watch));
     articleRepository.save(new Article("Maggi", "Maggi 1", 1400, food));
     articleRepository.save(new Article("Maggi", "Maggi 2", 1500, food));
-    for (Article article : articleRepository.findByBrand("S9")) {
-      logger.info("Article: {}", article.toString());
-    }
-    System.out.println(articleRepository.findByDescription("S8"));
-
-    Scanner sc = new Scanner(System.in);
-
-    System.out.println("Bienvenue dans notre EShop!");
-    System.out.println("*************************");
-    System.out.println("1: Afficher les articles sans pagination");
-    System.out.println("2: Afficher les articles avec pagination");
-    System.out.println("*************************");
-    System.out.println("3: Ajouter un article");
-    System.out.println("4: Afficher un article");
-    System.out.println("5: Supprimer un article");
-    System.out.println("6: Modifier un article");
-    System.out.println("*************************");
-    System.out.println("7: Ajouter une categorie");
-    System.out.println("8: Afficher une categorie");
-    System.out.println("8: Supprimer une categorie");
-    System.out.println("9: Mettre à jour une categorie");
-    System.out.println("10: Afficher tous les articles d'une categorie");
-    System.out.println("*************************");
-    System.out.println("12: Sortir du programme");
-
-    int choix = sc.nextInt();
-
-    System.out.println("*************************");
-    System.out.println("EXIT       pour sortir de la pagination");
-    System.out.println("PREV       pour aller a la page precedente");
-    System.out.println("NEXT       pour aller a la page suivante");
-    System.out.println(
-      "PAGE puis 7 pour afficher 7 articles par page (5 par défaut)"
-    );
-    System.out.println("*************************");
-    switch (choix) {
-      case 1:
-        System.out.printf(
-          "%-15s %-20s %-20s %-10s %-15s%n",
-          "IDENTIFIANT",
-          "MARQUE",
-          "DESCRIPTION",
-          "PRIX",
-          "CATEGORIE"
-        );
-        System.out.println("-".repeat(80));
-        for (Article article : articleRepository.findAllWithCategory()) {
-          System.out.printf(
-            "%-15s %-20s %-20s %-10s %-15s%n",
-            article.getId(),
-            article.getBrand(),
-            article.getDescription(),
-            article.getPrice(),
-            article.getCategory().getName()
-          );
-        }
-        break;
-      case 2:
-        int pageNum = 0;
-        int pageSize = 5;
-        String cmd = "";
-
-        while (!cmd.equals("EXIT")) {
-          Page<Article> page = articleRepository.findAll(
-            PageRequest.of(pageNum, pageSize)
-          );
-
-          System.out.printf(
-            "%-15s %-20s %-20s %-10s %-15s%n",
-            "IDENTIFIANT",
-            "MARQUE",
-            "DESCRIPTION",
-            "PRIX",
-            "CATEGORIE"
-          );
-          System.out.println("-".repeat(80));
-          for (Article article : page.getContent()) {
-            System.out.printf(
-              "%-15s %-20s %-20s %-10s %-15s%n",
-              article.getId(),
-              article.getBrand(),
-              article.getDescription(),
-              article.getPrice(),
-              article.getCategory().getName()
-            );
-          }
-
-          System.out.println(
-            "\nPage " + (pageNum + 1) + " / " + page.getTotalPages()
-          );
-          System.out.print("Commande (NEXT/PREV/EXIT/PAGE n) : ");
-          cmd = sc.next().toUpperCase();
-
-          if (cmd.equals("NEXT")) {
-            if (page.hasNext()) {
-              pageNum++;
-            }
-          } else if (cmd.equals("PREV")) {
-            if (page.hasPrevious()) {
-              pageNum--;
-            }
-          } else if (cmd.startsWith("PAGE")) {
-            pageSize = sc.nextInt();
-            pageNum = 0;
-          }
-        }
-        break;
-      case 3: {
-        String brand = sc.next();
-        String description = sc.next();
-        float price = sc.nextFloat();
-        String categoryName = sc.next();
-        Category category;
-        if (categoryRepository.existsByName(categoryName)) {
-          category = categoryRepository.findByName(categoryName);
-        } else {
-          category = categoryRepository.save(new Category(categoryName));
-        }
-        articleRepository.save(
-          new Article(brand, description, price, category)
-        );
-        break;
-      }
-      case 4: {
-        String description = sc.next();
-        Article article = articleRepository.findByDescription(description);
-        System.out.println(article);
-        break;
-      }
-      case 5: {
-        String description = sc.next();
-        articleRepository.deleteById(
-          articleRepository.findByDescription(description).getId()
-        );
-        break;
-      }
-      case 6: {
-        String description = sc.next();
-        String brand = sc.next();
-        float price = sc.nextFloat();
-        String categoryName = sc.next();
-        Category category;
-        if (categoryRepository.existsByName(categoryName)) {
-          category = categoryRepository.findByName(categoryName);
-        } else {
-          category = categoryRepository.save(new Category(categoryName));
-        }
-        articleRepository.updateArticle(brand, description, price, category);
-        break;
-      }
-      case 7: {
-        String name = sc.next();
-        categoryRepository.save(new Category(name));
-        break;
-      }
-      case 8: {
-        String name = sc.next();
-        if (categoryRepository.existsByName(name)) {
-          categoryRepository.deleteByName(name);
-        } else {
-          System.out.println("Categorie inexistante");
-        }
-        break;
-      }
-      case 9: {
-        String oldName = sc.next();
-        String newName = sc.next();
-        if (categoryRepository.existsByName(oldName)) {
-          categoryRepository.updateName(oldName, newName);
-        } else {
-          System.out.println("Categorie inexistante");
-        }
-        break;
-      }
-      case 10: {
-        String name = sc.next();
-        Category category = categoryRepository.findByName(name);
-        if (categoryRepository.existsByName(name)) {
-          for (Article article : articleRepository.getAllByCategory(category)) {
-            System.out.printf(
-              "%-15s %-20s %-20s %-10s %-15s%n",
-              article.getId(),
-              article.getBrand(),
-              article.getDescription(),
-              article.getPrice(),
-              article.getCategory().getName()
-            );
-          }
-          System.out.println("Categorie inexistante");
-        }
-        break;
-      }
-    }
+    //   for (Article article : articleRepository.findByBrand("S9")) {
+    //     logger.info("Article: {}", article.toString());
+    //   }
+    //   System.out.println(articleRepository.findByDescription("S8"));
+    //   Scanner sc = new Scanner(System.in);
+    //   System.out.println("Bienvenue dans notre EShop!");
+    //   System.out.println("*************************");
+    //   System.out.println("1: Afficher les articles sans pagination");
+    //   System.out.println("2: Afficher les articles avec pagination");
+    //   System.out.println("*************************");
+    //   System.out.println("3: Ajouter un article");
+    //   System.out.println("4: Afficher un article");
+    //   System.out.println("5: Supprimer un article");
+    //   System.out.println("6: Modifier un article");
+    //   System.out.println("*************************");
+    //   System.out.println("7: Ajouter une categorie");
+    //   System.out.println("8: Afficher une categorie");
+    //   System.out.println("8: Supprimer une categorie");
+    //   System.out.println("9: Mettre à jour une categorie");
+    //   System.out.println("10: Afficher tous les articles d'une categorie");
+    //   System.out.println("*************************");
+    //   System.out.println("12: Sortir du programme");
+    //   int choix = sc.nextInt();
+    //   System.out.println("*************************");
+    //   System.out.println("EXIT       pour sortir de la pagination");
+    //   System.out.println("PREV       pour aller a la page precedente");
+    //   System.out.println("NEXT       pour aller a la page suivante");
+    //   System.out.println(
+    //     "PAGE puis 7 pour afficher 7 articles par page (5 par défaut)"
+    //   );
+    //   System.out.println("*************************");
+    //   switch (choix) {
+    //     case 1:
+    //       System.out.printf(
+    //         "%-15s %-20s %-20s %-10s %-15s%n",
+    //         "IDENTIFIANT",
+    //         "MARQUE",
+    //         "DESCRIPTION",
+    //         "PRIX",
+    //         "CATEGORIE"
+    //       );
+    //       System.out.println("-".repeat(80));
+    //       for (Article article : articleRepository.findAllWithCategory()) {
+    //         System.out.printf(
+    //           "%-15s %-20s %-20s %-10s %-15s%n",
+    //           article.getId(),
+    //           article.getBrand(),
+    //           article.getDescription(),
+    //           article.getPrice(),
+    //           article.getCategory().getName()
+    //         );
+    //       }
+    //       break;
+    //     case 2:
+    //       int pageNum = 0;
+    //       int pageSize = 5;
+    //       String cmd = "";
+    //       while (!cmd.equals("EXIT")) {
+    //         Page<Article> page = articleRepository.findAll(
+    //           PageRequest.of(pageNum, pageSize)
+    //         );
+    //         System.out.printf(
+    //           "%-15s %-20s %-20s %-10s %-15s%n",
+    //           "IDENTIFIANT",
+    //           "MARQUE",
+    //           "DESCRIPTION",
+    //           "PRIX",
+    //           "CATEGORIE"
+    //         );
+    //         System.out.println("-".repeat(80));
+    //         for (Article article : page.getContent()) {
+    //           System.out.printf(
+    //             "%-15s %-20s %-20s %-10s %-15s%n",
+    //             article.getId(),
+    //             article.getBrand(),
+    //             article.getDescription(),
+    //             article.getPrice(),
+    //             article.getCategory().getName()
+    //           );
+    //         }
+    //         System.out.println(
+    //           "\nPage " + (pageNum + 1) + " / " + page.getTotalPages()
+    //         );
+    //         System.out.print("Commande (NEXT/PREV/EXIT/PAGE n) : ");
+    //         cmd = sc.next().toUpperCase();
+    //         if (cmd.equals("NEXT")) {
+    //           if (page.hasNext()) {
+    //             pageNum++;
+    //           }
+    //         } else if (cmd.equals("PREV")) {
+    //           if (page.hasPrevious()) {
+    //             pageNum--;
+    //           }
+    //         } else if (cmd.startsWith("PAGE")) {
+    //           pageSize = sc.nextInt();
+    //           pageNum = 0;
+    //         }
+    //       }
+    //       break;
+    //     case 3: {
+    //       String brand = sc.next();
+    //       String description = sc.next();
+    //       float price = sc.nextFloat();
+    //       String categoryName = sc.next();
+    //       Category category;
+    //       if (categoryRepository.existsByName(categoryName)) {
+    //         category = categoryRepository.findByName(categoryName);
+    //       } else {
+    //         category = categoryRepository.save(new Category(categoryName));
+    //       }
+    //       articleRepository.save(
+    //         new Article(brand, description, price, category)
+    //       );
+    //       break;
+    //     }
+    //     case 4: {
+    //       String description = sc.next();
+    //       Article article = articleRepository.findByDescription(description);
+    //       System.out.println(article);
+    //       break;
+    //     }
+    //     case 5: {
+    //       String description = sc.next();
+    //       articleRepository.deleteById(
+    //         articleRepository.findByDescription(description).getId()
+    //       );
+    //       break;
+    //     }
+    //     case 6: {
+    //       String description = sc.next();
+    //       String brand = sc.next();
+    //       float price = sc.nextFloat();
+    //       String categoryName = sc.next();
+    //       Category category;
+    //       if (categoryRepository.existsByName(categoryName)) {
+    //         category = categoryRepository.findByName(categoryName);
+    //       } else {
+    //         category = categoryRepository.save(new Category(categoryName));
+    //       }
+    //       articleRepository.updateArticle(brand, description, price, category);
+    //       break;
+    //     }
+    //     case 7: {
+    //       String name = sc.next();
+    //       categoryRepository.save(new Category(name));
+    //       break;
+    //     }
+    //     case 8: {
+    //       String name = sc.next();
+    //       if (categoryRepository.existsByName(name)) {
+    //         categoryRepository.deleteByName(name);
+    //       } else {
+    //         System.out.println("Categorie inexistante");
+    //       }
+    //       break;
+    //     }
+    //     case 9: {
+    //       String oldName = sc.next();
+    //       String newName = sc.next();
+    //       if (categoryRepository.existsByName(oldName)) {
+    //         categoryRepository.updateName(oldName, newName);
+    //       } else {
+    //         System.out.println("Categorie inexistante");
+    //       }
+    //       break;
+    //     }
+    //     case 10: {
+    //       String name = sc.next();
+    //       Category category = categoryRepository.findByName(name);
+    //       if (categoryRepository.existsByName(name)) {
+    //         for (Article article : articleRepository.getAllByCategory(category)) {
+    //           System.out.printf(
+    //             "%-15s %-20s %-20s %-10s %-15s%n",
+    //             article.getId(),
+    //             article.getBrand(),
+    //             article.getDescription(),
+    //             article.getPrice(),
+    //             article.getCategory().getName()
+    //           );
+    //         }
+    //         System.out.println("Categorie inexistante");
+    //       }
+    //       break;
+    //     }
+    //   }
   }
 }

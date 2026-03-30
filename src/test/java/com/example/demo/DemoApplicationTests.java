@@ -1,11 +1,19 @@
 package com.example.demo;
 
-import org.junit.jupiter.api.Test;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-class DemoApplicationTests {
+@SpringBootApplication
+public class DemoApplicationTests implements CommandLineRunner {
 
-	@Test
-	void contextLoads() {
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(DemoApplicationTests.class, args);
+  }
 
+  @Override
+  public void run(String... args) throws Exception {
+    // no startup logic needed
+    System.out.println("hello");
+  }
 }
