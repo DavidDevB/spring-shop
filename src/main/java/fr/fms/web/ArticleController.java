@@ -18,9 +18,16 @@ public class ArticleController {
 
   //@RequestMapping(value = "/index", method = RequestMethod.GET)
   @GetMapping("/index")
-  public String index(Model model, @RequestParam(defaultValue = "0") int page) {
-    Page<Article> articles = articleRepository.findAll(PageRequest.of(page, 5));
-    model.addAttribute("articles", articles);
+  public String index(
+    Model model,
+    @RequestParam(name = "page", defaultValue = "0") int page,
+    @RequestParam(name = "keyword", defaultValue = "") String keyword
+  ) {
+    Page<Article> articles = articleRepository.findByDescriptionContains(
+      keyword,
+      PageRequest.of(page, 5)
+    );
+    model.addAttribute("articles", articles.getContent());
     model.addAttribute("pages", new int[articles.getTotalPages()]);
     model.addAttribute("currentPage", page);
     return "articles";
