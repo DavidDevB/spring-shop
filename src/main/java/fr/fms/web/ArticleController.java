@@ -32,4 +32,10 @@ public class ArticleController {
     model.addAttribute("currentPage", page);
     return "articles";
   }
+
+  @GetMapping("/delete")
+  public String delete(Long id, int page, String keyword) {
+    articleRepository.deleteById(id);
+    return "redirect:/index?page=" + page + "&keyword=" + keyword;
+  }
 }
