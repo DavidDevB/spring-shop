@@ -25,7 +25,10 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
   public Article findByDescription(String description);
 
-  public Page<Article> findByDescriptionContains(String description, Pageable pageable);
+  public Page<Article> findByDescriptionContains(
+    String description,
+    Pageable pageable
+  );
 
   public Article findByBrandAndDescription(String brand, String description);
 
@@ -47,4 +50,12 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     "SELECT a FROM Article a JOIN FETCH a.category WHERE a.category = :category"
   )
   List<Article> getAllByCategory(@Param("category") Category category);
+
+  @Query(
+    "SELECT a FROM Article a JOIN FETCH a.category WHERE a.category = :category"
+  )
+  public Page<Article> findByCategoryName(
+    @Param("category") Category category,
+    Pageable pageable
+  );
 }

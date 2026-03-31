@@ -1,8 +1,10 @@
 package fr.fms.web;
 
 import fr.fms.dao.ArticleRepository;
+import fr.fms.dao.CategoryRepository;
 import fr.fms.entities.Article;
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,22 +21,38 @@ public class ArticleController {
   @Autowired
   ArticleRepository articleRepository;
 
+  @Autowired
+  CategoryRepository categoryRepository;
+
   //@RequestMapping(value = "/index", method = RequestMethod.GET)
   @GetMapping("/index")
   public String index(
     Model model,
-    @RequestParam(name = "page", defaultValue = "0") int page,
-    @RequestParam(name = "keyword", defaultValue = "") String keyword
+    @RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "") String keyword,
+    @RequestParam(defaultValue = "") String categoryName
   ) {
-    Page<Article> articles = articleRepository.findByDescriptionContains(
-      keyword,
-      PageRequest.of(page, 5)
-    );
-    model.addAttribute("articles", articles.getContent());
-    model.addAttribute("pages", new int[articles.getTotalPages()]);
-    model.addAttribute("currentPage", page);
-    model.addAttribute("keyword", keyword);
-    return "articles";
+    if (!categoryName.equals("")) {
+      Page<Article> articles = articleRepository.findByCategoryName(
+        categoryRepository.findByName(categoryName),
+        PageRequest.of(page, 5)
+      );
+      model.addAttribute("articles", articles);
+      model.addAttribute("categoryName", categoryName);
+      model.addAttribute("pages", new int[articles.getTotalPages()]);
+      model.addAttribute("currentPage", page);
+      return "articles";
+    } else {
+      Page<Article> articles = articleRepository.findByDescriptionContains(
+        keyword,
+        PageRequest.of(page, 5)
+      );
+      model.addAttribute("articles", articles.getContent());
+      model.addAttribute("pages", new int[articles.getTotalPages()]);
+      model.addAttribute("currentPage", page);
+      model.addAttribute("keyword", keyword);
+      return "articles";
+    }
   }
 
   @GetMapping("/delete")
