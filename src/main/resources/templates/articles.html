@@ -42,7 +42,11 @@ layout:decorate="layout">
                 <td>
                     <a th:href="@{/delete(id=${article.id}, page=${currentPage}, keyword=${keyword})}" class="btn btn-danger">Delete</a></a>
                 </td>
+                <td>
+                    <a th:href="@{/edit(id=${article.id})}" class="btn btn-primary">Edit</a></a>
+                </td>
             </tr>
+            
             
         </table>
         <ul class="pagination">
