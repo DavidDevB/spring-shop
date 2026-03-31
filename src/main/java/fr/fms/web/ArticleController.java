@@ -77,4 +77,33 @@ public class ArticleController {
     articleRepository.save(article);
     return "redirect:/index";
   }
+
+  @GetMapping("/edit")
+  public String edit(Model model, Long id) {
+    Article article = articleRepository.findById(id).get();
+    model.addAttribute("editId", id);
+    model.addAttribute("articles", articleRepository.findAll());
+    return "articles";
+  }
+
+  @PostMapping("/update")
+  public String update(
+    Model model,
+    @RequestParam Long id,
+    @RequestParam String brand,
+    @RequestParam String description,
+    @RequestParam float price
+  ) {
+    Article article = articleRepository.findById(id).get();
+    article.setBrand(brand);
+    article.setDescription(description);
+    article.setPrice(price);
+    articleRepository.save(article);
+    model.addAttribute("articles", articleRepository.findAll());
+    model.addAttribute("editId", id);
+    model.addAttribute("brand", brand);
+    model.addAttribute("description", description);
+    model.addAttribute("price", price);
+    return "redirect:/index";
+  }
 }

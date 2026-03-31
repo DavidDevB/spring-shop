@@ -25,35 +25,42 @@ layout:decorate="layout">
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
         </div>
-        <table class="table table-striped table-bordered">
-            <tr>
-                <th>ID</th>
-                <th>Marque</th>
-                <th>Description</th>
-                <th>Prix</th>
-                <th>Catégorie</th>
-            </tr>
-            <tr th:each="article : ${articles}">
-                <td th:text="${article.id}"></td>
-                <td th:text="${article.brand}"></td>
-                <td th:text="${article.description}"></td>
-                <td th:text="${article.price}"></td>
-                <td th:text="${article.category.name}"></td>
-                <td>
-                    <a th:href="@{/delete(id=${article.id}, page=${currentPage}, keyword=${keyword})}" class="btn btn-danger">Delete</a></a>
-                </td>
-                <td>
-                    <a th:href="@{/edit(id=${article.id})}" class="btn btn-primary">Edit</a></a>
-                </td>
-            </tr>
-            
-            
-        </table>
+        <form th:action="@{/update}" method="post">
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <th>ID</th>
+                    <th>Marque</th>
+                    <th>Description</th>
+                    <th>Prix</th>
+                    <th>Catégorie</th>
+                </tr>
+                <tr th:each="article : ${articles}">
+                    <td><span th:unless="${article.id == editId}" th:text="${article.id}"></span><input th:if="${article.id == editId}" type="hidden" name="id" th:value="${article.id}"></td>
+                    <td ><span th:unless="${article.id == editId}" th:text="${article.brand}" ></span><input th:if="${article.id == editId}" type="text" name="brand" th:value="${article.brand}">
+                    </td>
+                    <td ><span th:unless="${article.id == editId}" th:text="${article.description}"></span>
+                        <input th:if="${article.id == editId}" type="text" name="description" th:value="${article.description}">
+                    </td>
+                    <td>
+                        <span th:unless="${article.id == editId}" th:text="${article.price}"></span><input th:if="${article.id == editId}" type="number" step="0.01" name="price" th:value="${article.price}">
+                    </td>
+                    <td><span th:unless="${article.id == editId}" th:text="${article.category.name}"></span><input th:if="${article.id == editId}" type="text" name="category" th:value="${article.category.name}"></td>
+                    <td>
+                        <a th:href="@{/delete(id=${article.id}, page=${currentPage}, keyword=${keyword})}" class="btn btn-danger">Delete</a></a>
+                    </td>
+                    <td>
+                        <a th:if="${article.id != editId}" th:href="@{/edit(id=${article.id})}" class="btn btn-primary">Edit</a></a>
+                        <button th:if="${article.id == editId}" type="submit" class="btn btn-primary">Save</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
         <ul class="pagination">
             <li class="page-item" th:classappend="${currentPage==status.index}?'active':''" th:each="page,status:${pages}">
                 <a class="page-link" th:href="@{/index(page=${status.index}, keyword=${keyword})}" th:text="${status.index + 1}"></a>
             </li>
         </ul>
+
     </div>
 </div>
 </body>
