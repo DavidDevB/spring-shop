@@ -79,10 +79,16 @@ public class ArticleController {
   }
 
   @GetMapping("/edit")
-  public String edit(Model model, Long id) {
-    Article article = articleRepository.findById(id).get();
+  public String edit(
+    Model model,
+    Long id,
+    @RequestParam(defaultValue = "0") int page
+  ) {
     model.addAttribute("editId", id);
-    model.addAttribute("articles", articleRepository.findAll());
+    Page<Article> articles = articleRepository.findAll(PageRequest.of(page, 5));
+    model.addAttribute("articles", articles);
+    model.addAttribute("pages", new int[articles.getTotalPages()]);
+
     return "articles";
   }
 
