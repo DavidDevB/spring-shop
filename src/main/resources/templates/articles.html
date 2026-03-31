@@ -48,7 +48,7 @@ layout:decorate="layout">
                         <span th:unless="${article.id == editId}" th:text="${article.category.name}"></span><input th:if="${article.id == editId}" type="text" name="category" th:value="${article.category.name}">
                     </td>
                     <td>
-                        <a th:unless="${article.id == editId}" th:href="@{/edit(id=${article.id})}" class="btn btn-primary"><img alt="Ajouter au panier" src="https://img.icons8.com/?size=35&id=59997&format=png&color=000000"/>Ajouter au panier</a>
+                        <a th:unless="${article.id == editId}" th:href="@{/edit(id=${article.id})}" class="btn btn-primary"><img alt="Ajouter au panier" src="https://img.icons8.com/?size=25&id=59997&format=png&color=000000"/>Ajouter au panier</a>
                     </td>
                     <td>
                         <a th:href="@{/delete(id=${article.id}, page=${currentPage}, keyword=${keyword})}" class="btn btn-danger">Delete</a></a>
