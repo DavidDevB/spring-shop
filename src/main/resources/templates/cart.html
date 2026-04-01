@@ -21,10 +21,10 @@ layout:decorate="layout">
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="item : ${cartItems}">
-                    <td th:text="${item.name}"></td>
-                    <td th:text="${item.quantity}"></td>
-                    <td th:text="${item.price}"></td>
+                <tr th:each="entry : ${articles}">  
+                    <td th:text="${entry.key.description}"></td>
+                    <td th:text="${entry.value}"></td>
+                    <td th:text="${entry.key.price}"></td>
                 </tr>
             </tbody>
         </table>

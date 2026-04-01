@@ -13,6 +13,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class SpringShopApplication implements CommandLineRunner {
@@ -33,6 +35,9 @@ public class SpringShopApplication implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
+    PasswordEncoder encoder = new BCryptPasswordEncoder();
+    System.out.println(encoder.encode("password"));
+
     Category smartphone = categoryRepository.save(new Category("Smartphone"));
     Category watch = categoryRepository.save(new Category("Watch"));
     Category food = categoryRepository.save(new Category("Food"));

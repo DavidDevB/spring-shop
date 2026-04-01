@@ -13,6 +13,23 @@ import java.io.Serializable;
 @Entity
 public class Article implements Serializable {
 
+  @Override
+  public int hashCode() {
+    return ((id == null) ? 0 : id.hashCode());
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    Article other = (Article) obj;
+    if (id == null) {
+      if (other.id != null) return false;
+    } else if (!id.equals(other.id)) return false;
+    return true;
+  }
+
   private static final long serialVersionUID = 1L;
 
   @Id

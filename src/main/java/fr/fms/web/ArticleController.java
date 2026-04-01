@@ -3,9 +3,13 @@ package fr.fms.web;
 import fr.fms.dao.ArticleRepository;
 import fr.fms.dao.CategoryRepository;
 import fr.fms.entities.Article;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -111,5 +115,34 @@ public class ArticleController {
     model.addAttribute("description", description);
     model.addAttribute("price", price);
     return "redirect:/index";
+  }
+
+  @GetMapping("/add")
+  public String add(Model model, HttpSession session, @RequestParam Long id) {
+    Article article = articleRepository.findById(id).get();
+    HashMap<Article, Integer> cart = new HashMap<>();
+    if (session.getAttribute("articles") != null) {
+      cart = (HashMap<Article, Integer>) session.getAttribute("articles");
+      if (cart.containsKey(article)) {
+        cart.put(article, cart.get(article) + 1);
+      } else {
+        cart.put(article, 1);
+      }
+    } else {
+      cart.put(article, 1);
+    }
+    session.setAttribute("articles", cart);
+    return "redirect:/index";
+  }
+
+  @GetMapping("/cart")
+  public String cart(Model model, HttpSession session) {
+    HashMap<Article, Integer> cart = new HashMap<>();
+    if (session.getAttribute("articles") != null) {
+      cart = (HashMap<Article, Integer>) session.getAttribute("articles");
+    }
+    model.addAttribute("articles", cart);
+    session.setAttribute("articles", cart);
+    return "cart";
   }
 }
