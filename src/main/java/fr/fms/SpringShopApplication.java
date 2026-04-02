@@ -36,7 +36,8 @@ public class SpringShopApplication implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     PasswordEncoder encoder = new BCryptPasswordEncoder();
-    System.out.println(encoder.encode("password"));
+
+    System.out.println(encoder.encode("passwordu"));
 
     // Category smartphone = categoryRepository.save(new Category("Smartphone"));
     // Category watch = categoryRepository.save(new Category("Watch"));

@@ -16,7 +16,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             </div>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link active" href="/index">Accueil</a></li>
-                <li class="nav-item"><a class="nav-link" href="/article">Article</a></li>
+                <li sec:authorize="hasAuthority('admin')" class="nav-item"><a class="nav-link" href="/article">Article</a></li>
                 <li class="nav-item"><a class="nav-link" href="/cart">Panier</a></li>
             </ul>
         </div>

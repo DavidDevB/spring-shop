@@ -2,7 +2,8 @@
 <html lang="en"
 xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="layout">
+layout:decorate="layout"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +17,7 @@ layout:decorate="layout">
             <a class="btn btn-primary" th:href="@{/index(categoryName='smartphone')}">Smartphone</a>
             <a class="btn btn-primary" th:href="@{/index(categoryName='watch')}">Watch</a>
             <a class="btn btn-primary" th:href="@{/index(categoryName='food')}">Food</a>
+            <a class="btn btn-primary" th:href="@{/index(categoryName='')}">All</a>
         </div>
         <h1>Liste des articles</h1>
         <div class="panel-body  ">
@@ -50,10 +52,10 @@ layout:decorate="layout">
                     <td>
                         <a th:unless="${article.id == editId}" th:href="@{/add(id=${article.id})}" class="d-flex align-items-center bg-transparent border-0"><img alt="Ajouter au panier" src="https://img.icons8.com/?size=25&id=59997&format=png&color=000000"/>Ajouter au panier</a>
                     </td>
-                    <td>
-                        <a th:href="@{/delete(id=${article.id}, page=${currentPage}, keyword=${keyword})}" class="btn btn-danger">Delete</a></a>
+                    <td sec:authorize="hasAuthority('admin')">
+                        <a  th:href="@{/delete(id=${article.id}, page=${currentPage}, keyword=${keyword})}" class="btn btn-danger">Delete</a></a>
                     </td>
-                    <td>
+                    <td sec:authorize="hasAuthority('admin')">
                         <a th:if="${article.id != editId}" th:href="@{/edit(id=${article.id})}" class="btn btn-primary">Edit</a></a>
                         <button th:if="${article.id == editId}" type="submit" class="btn btn-primary">Save</button>
                     </td>
