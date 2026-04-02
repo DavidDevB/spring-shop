@@ -18,6 +18,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                 <li class="nav-item"><a class="nav-link active" href="/index">Accueil</a></li>
                 <li sec:authorize="hasAuthority('admin')" class="nav-item"><a class="nav-link" href="/article">Article</a></li>
                 <li class="nav-item"><a class="nav-link" href="/cart">Panier</a></li>
+                <li class="nav-item"><a class="nav-link" href="/order">Order</a></li>
+                <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
             </ul>
         </div>
     </nav>
