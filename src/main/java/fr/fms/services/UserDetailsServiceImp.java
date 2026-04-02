@@ -17,9 +17,6 @@ public class UserDetailsServiceImp implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String username) {
     User user = userRepository.findByUsername(username);
-    System.out.println("Loading user: " + username);
-    System.out.println("Found: " + user);
-    System.out.println("All users: " + userRepository.findAll());
     return org.springframework.security.core.userdetails.User.withUsername(
       user.getUsername()
     )
