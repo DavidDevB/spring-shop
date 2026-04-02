@@ -38,23 +38,23 @@ public class SpringShopApplication implements CommandLineRunner {
     PasswordEncoder encoder = new BCryptPasswordEncoder();
     System.out.println(encoder.encode("password"));
 
-    Category smartphone = categoryRepository.save(new Category("Smartphone"));
-    Category watch = categoryRepository.save(new Category("Watch"));
-    Category food = categoryRepository.save(new Category("Food"));
-    articleRepository.save(new Article("Samsung", "S8", 250, smartphone));
-    articleRepository.save(new Article("Samsung", "S9", 300, smartphone));
-    articleRepository.save(new Article("Samsung", "S10", 400, smartphone));
-    articleRepository.save(new Article("Samsung", "S11", 500, smartphone));
-    articleRepository.save(new Article("Apple", "IPhone 15", 600, smartphone));
-    articleRepository.save(new Article("Apple", "IPhone 16", 700, smartphone));
-    articleRepository.save(new Article("Apple", "IPhone 17", 800, smartphone));
-    articleRepository.save(new Article("Sony", "Xperia 1", 900, smartphone));
-    articleRepository.save(new Article("Sony", "Xperia 2", 1000, smartphone));
-    articleRepository.save(new Article("Sony", "Xperia 3", 1100, smartphone));
-    articleRepository.save(new Article("Rolex", "Rolex 1", 1200, watch));
-    articleRepository.save(new Article("Rolex", "Rolex 2", 1300, watch));
-    articleRepository.save(new Article("Maggi", "Maggi 1", 1400, food));
-    articleRepository.save(new Article("Maggi", "Maggi 2", 1500, food));
+    // Category smartphone = categoryRepository.save(new Category("Smartphone"));
+    // Category watch = categoryRepository.save(new Category("Watch"));
+    // Category food = categoryRepository.save(new Category("Food"));
+    // articleRepository.save(new Article("Samsung", "S8", 250, smartphone));
+    // articleRepository.save(new Article("Samsung", "S9", 300, smartphone));
+    // articleRepository.save(new Article("Samsung", "S10", 400, smartphone));
+    // articleRepository.save(new Article("Samsung", "S11", 500, smartphone));
+    // articleRepository.save(new Article("Apple", "IPhone 15", 600, smartphone));
+    // articleRepository.save(new Article("Apple", "IPhone 16", 700, smartphone));
+    // articleRepository.save(new Article("Apple", "IPhone 17", 800, smartphone));
+    // articleRepository.save(new Article("Sony", "Xperia 1", 900, smartphone));
+    // articleRepository.save(new Article("Sony", "Xperia 2", 1000, smartphone));
+    // articleRepository.save(new Article("Sony", "Xperia 3", 1100, smartphone));
+    // articleRepository.save(new Article("Rolex", "Rolex 1", 1200, watch));
+    // articleRepository.save(new Article("Rolex", "Rolex 2", 1300, watch));
+    // articleRepository.save(new Article("Maggi", "Maggi 1", 1400, food));
+    // articleRepository.save(new Article("Maggi", "Maggi 2", 1500, food));
     //   for (Article article : articleRepository.findByBrand("S9")) {
     //     logger.info("Article: {}", article.toString());
     //   }
